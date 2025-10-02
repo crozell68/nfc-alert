@@ -25,20 +25,24 @@
   </div>
 
 <script>
-const WEBHOOK_NON = "https://hooks.nabu.casa/gAAAAABo3pB78MXGlGV7qD2GfgKUAuqWocQEunm7NKXz9yK7WNy7Yub7rwsevtfLwvSs8pz2lS1SXowXK1tf_NgNAg3PqniD65GBnpdlANN6idc02vWrLkQwfeYCsQxp4EQTAKC-ReVwqZTJnZWIAS5fp1wy97Dj-FZGnfCNSlAWXiTxX0bRDYc=";   // Replace with your full long URL from Cloud → Manage
-const WEBHOOK_EM  = "https://hooks.nabu.casa/gAAAAABo3pB-PhuMyBbdvUdMDCz6o1i7omJrlYknSqiMJBHgWTJFYLH2KpbgycY3iocQruf8jFMC8Zvo3f7yqTnOir17vdg7GVc5p6Jx8K-P2W5pcxnCW_66HBSQR3IkiexY0Lk_vlIHodK8fDUnJcpft4XkfDcdcgI8TdOHvrm-ZjdGKL2RDXA=";    // Replace with your full long URL from Cloud → Manage
+const WEBHOOK_NON = "https://hooks.nabu.casa/gAAAAABo3pB78MXGlGV7qD2GfgKUAuqWocQEunm7NKXz9yK7WNy7Yub7rwsevtfLwvSs8pz2lS1SXowXK1tf_NgNAg3PqniD65GBnpdlANN6idc02vWrLkQwfeYCsQxp4EQTAKC-ReVwqZTJnZWIAS5fp1wy97Dj-FZGnfCNSlAWXiTxX0bRDYc=";
+const WEBHOOK_EM  = "https://hooks.nabu.casa/gAAAAABo3pB-PhuMyBbdvUdMDCz6o1i7omJrlYknSqiMJBHgWTJFYLH2KpbgycY3iocQruf8jFMC8Zvo3f7yqTnOir17vdg7GVc5p6Jx8K-P2W5pcxnCW_66HBSQR3IkiexY0Lk_vlIHodK8fDUnJcpft4XkfDcdcgI8TdOHvrm-ZjdGKL2RDXA=";
 
 async function callWebhook(url, type){
   let text = document.getElementById('alertText').value || "No details provided";
   try {
-    await fetch(url, {
+    let response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ description: text, alert_type: type })
     });
-    alert("Notification sent.");
+    if (response.ok) {
+      alert("Notification sent.");
+    } else {
+      alert("Webhook call failed: " + response.status);
+    }
   } catch(e) {
-    alert("Failed to send. Try again or call parent directly.");
+    alert("Failed to send. Error: " + e);
   }
 }
 
@@ -47,5 +51,7 @@ document.getElementById('em').addEventListener('click', () => {
   if (confirm("🚨 Emergency — are you sure?")) callWebhook(WEBHOOK_EM, "emergency");
 });
 </script>
+
 </body>
 </html>
+
