@@ -31,7 +31,7 @@ const WEBHOOK_EM  = "https://hooks.nabu.casa/gAAAAABo3pB-PhuMyBbdvUdMDCz6o1i7omJ
 async function callWebhook(url, type){
   let text = document.getElementById('alertText').value || "No details provided";
   try {
-    await fetch(url + "?desc=" + encodeURIComponent(text) + "&type=" + type, {
+    await fetch(url + "&desc=" + encodeURIComponent(text) + "&type=" + type, {
       method: "POST",
       mode: "no-cors"
     });
@@ -50,5 +50,6 @@ document.getElementById('em').addEventListener('click', () => {
 
 </body>
 </html>
+
 
 
