@@ -31,16 +31,11 @@ const WEBHOOK_EM  = "https://hooks.nabu.casa/gAAAAABo3pB-PhuMyBbdvUdMDCz6o1i7omJ
 async function callWebhook(url, type){
   let text = document.getElementById('alertText').value || "No details provided";
   try {
-    let response = await fetch(url, {
+    await fetch(url + "?desc=" + encodeURIComponent(text) + "&type=" + type, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ description: text, alert_type: type })
+      mode: "no-cors"
     });
-    if (response.ok) {
-      alert("Notification sent.");
-    } else {
-      alert("Webhook call failed: " + response.status);
-    }
+    alert("Notification sent.");
   } catch(e) {
     alert("Failed to send. Error: " + e);
   }
@@ -52,6 +47,8 @@ document.getElementById('em').addEventListener('click', () => {
 });
 </script>
 
+
 </body>
 </html>
+
 
